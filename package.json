@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/k8sterchi/k8s-unstructured-data-api/issues"
   },
-  "homepage": "https://github.com/k8sterchi/k8s-unstructured-data-api#readme"
+  "homepage": "https://github.com/k8sterchi/k8s-unstructured-data-api#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3"
+  }
 }
