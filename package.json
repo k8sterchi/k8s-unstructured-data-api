@@ -1,0 +1,20 @@
+{
+  "name": "k8s-unstructured-data-api",
+  "version": "1.0.0",
+  "description": "an API for a social network web applications where users can share their thoughts, react to friends’ thoughts, and create a friend list.",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/k8sterchi/k8s-unstructured-data-api.git"
+  },
+  "author": "k8sterchi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/k8sterchi/k8s-unstructured-data-api/issues"
+  },
+  "homepage": "https://github.com/k8sterchi/k8s-unstructured-data-api#readme"
+}
