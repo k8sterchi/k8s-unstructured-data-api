@@ -1,7 +1,7 @@
 require('dotenv').config(); 
 const mongoose = require('mongoose');
-const User = require('./models/User'); 
-const Thought = require('./models/Thought'); 
+const User = require('../models/User'); 
+const Thought = require('../models/Thought'); 
 
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
