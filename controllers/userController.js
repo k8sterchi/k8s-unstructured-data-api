@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const User = require("../models/User");
 
 // Get all users
 const getAllUsers = async (req, res) => {
@@ -6,20 +6,29 @@ const getAllUsers = async (req, res) => {
     const users = await User.find();
     res.json(users);
   } catch (error) {
-    console.error('Error fetching users:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
-// Create a new user --need to refactor this... 
+// Create a new user
 const createUser = async (req, res) => {
-  const newUser = new User({ name: req.params.user});
-  newUses.save();
-  if (newUser) {
-    res.status(200).json(newUser);
-  } else {
-    console.log('Uh oh, something went wrong.');
-    res.status(500).json({ message: 'something went wrong' });
+  try {
+    const { username, email } = req.body;
+
+    // Validate that both username and email are provided
+    if (!username || !email) {
+      return res.status(400).json({ error: "Username and email are required" });
+    }
+
+    // Create a new user
+    const newUser = await User.create({ username, email });
+
+    // Respond with the newly created user
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -28,5 +37,5 @@ const createUser = async (req, res) => {
 module.exports = {
   getAllUsers,
   createUser,
-  // Add other functions 
+  // Add other functions
 };

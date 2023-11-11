@@ -10,11 +10,11 @@ app.use(express.json());
 connectDB();
 
 // Import and use your route files
-// const userRoutes = require('./routes/userRoutes');
+const userRoutes = require('./routes/api/userRoutes');
 // const thoughtRoutes = require('./routes/thoughtRoutes');
 // const friendRoutes = require('./routes/friendRoutes');
 
-// app.use('/api/users', userRoutes);
+app.use('/api/users', userRoutes);
 // app.use('/api/thoughts', thoughtRoutes);
 // app.use('/api/friends', friendRoutes);
 
