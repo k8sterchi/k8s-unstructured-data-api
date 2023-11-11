@@ -43,9 +43,9 @@ This first animation demonstrates how to start the application's server:
 
 (insert animation here)
 
-The following animation shows GET routes to return all users and all thoughts:
 
-(insert animation here)
+
+[Click to view animation showing GET routes to return all users and all thoughts](https://drive.google.com/file/d/1dTRUGFIg3FJL2MKkbTodPMjV-oaDy4ta/view)
 
 The following animation shows GET routes to return a single user and a single thought being tested in Insomnia:
 

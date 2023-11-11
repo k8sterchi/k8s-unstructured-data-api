@@ -1,65 +1,52 @@
-const User = require("../models/User");
-
-// Get all users
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await User.find();
-    res.json(users);
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-// Create a new user
-const createUser = async (req, res) => {
-  try {
-    const { username, email } = req.body;
-
-    // Validate that both username and email are provided
-    if (!username || !email) {
-      return res.status(400).json({ message: "Username and email are required" });
-    }
-
-    // Create a new user
-    const newUser = await User.create({ username, email });
-
-    // Respond with the newly created user
-    res.status(201).json(newUser);
-  } catch (error) {
-    console.error("Error creating user:", error);
-    res.status(500).json({ message: "Internal Server Error" });
-  }
-};
-
-// Delete a user by ID
-const deleteUserById = async (req, res) => {
-    try {
-      const userId = req.params.userId;
-    
-      // Check if the user ID is valid
-      if (!userId) {
-        return res.status(400).json({ message: 'Invalid user ID' });
-      }
-      console.log('deleting userId:', userId);
-      // Find and delete the user by ID
-      const deletedUser = await User.findByIdAndDelete(userId);
-    
-      // Check if the user was found and deleted
-      if (!deletedUser) {
-        return res.status(404).json({ message: 'User not found' });
-      }
-    
-      res.json({ message: 'User deleted successfully', deletedUser });
-    } catch (error) {
-      console.error('Error deleting user:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
-    }
-  };
+const { User, Thought } = require('../models');
 
 module.exports = {
-  getAllUsers,
-  createUser,
-  deleteUserById
-};
+  // Get all users
+  async getUsers(req, res) {
+    try {
+      const users = await User.find();
+      res.json(users);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  // Get a single user
+  async getSingleUser(req, res) {
+    try {
+      const user = await User.findOne({ _id: req.params.userId })
+        .select('-__v');
 
+      if (!user) {
+        return res.status(404).json({ message: 'No user with that ID' });
+      }
+
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  // create a new user
+  async createUser(req, res) {
+    try {
+      const user = await User.create(req.body);
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+  // Delete a user and associated thoughts
+  async deleteUser(req, res) {
+    try {
+      const user = await User.findOneAndDelete({ _id: req.params.userId });
+
+      if (!user) {
+        return res.status(404).json({ message: 'No user with that ID' });
+      }
+
+      await Application.deleteMany({ _id: { $in: user.thoughts } });
+      res.json({ message: 'User and associated thoughts deleted!' })
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  },
+};

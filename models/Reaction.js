@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 // Create a Reaction schema
-const reactionSchema = new mongoose.Schema({
+const reactionSchema = new Schema({
   reactionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    default: () => new mongoose.Types.ObjectId(),
+    type: Schema.Types.ObjectId,
+    default: () => new Types.ObjectId(),
   },
   reactionBody: {
     type: String,
@@ -18,7 +18,6 @@ const reactionSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    get: (createdAt) => dateFormat(createdAt),
   },
 });
 

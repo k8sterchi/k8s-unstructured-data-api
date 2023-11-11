@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 
 // Create a Thought schema
-const thoughtSchema = new mongoose.Schema({
+const thoughtSchema = new mongoose.Schema(
+  {
   thoughtText: {
     type: String,
     required: true,
