@@ -7,7 +7,7 @@ const getAllUsers = async (req, res) => {
     res.json(users);
   } catch (error) {
     console.error("Error fetching users:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -18,7 +18,7 @@ const createUser = async (req, res) => {
 
     // Validate that both username and email are provided
     if (!username || !email) {
-      return res.status(400).json({ error: "Username and email are required" });
+      return res.status(400).json({ message: "Username and email are required" });
     }
 
     // Create a new user
@@ -28,14 +28,38 @@ const createUser = async (req, res) => {
     res.status(201).json(newUser);
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
-// Other CRUD operations for users...
+// Delete a user by ID
+const deleteUserById = async (req, res) => {
+    try {
+      const userId = req.params.userId;
+    
+      // Check if the user ID is valid
+      if (!userId) {
+        return res.status(400).json({ message: 'Invalid user ID' });
+      }
+      console.log('deleting userId:', userId);
+      // Find and delete the user by ID
+      const deletedUser = await User.findByIdAndDelete(userId);
+    
+      // Check if the user was found and deleted
+      if (!deletedUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+    
+      res.json({ message: 'User deleted successfully', deletedUser });
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
 
 module.exports = {
   getAllUsers,
   createUser,
-  // Add other functions
+  deleteUserById
 };
+
