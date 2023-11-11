@@ -5,25 +5,25 @@ module.exports = {
     // Then we return the results as JSON, and catch any errors. Errors are sent as JSON with a message and a 500 status code
     async getThoughts(req, res) {
       try {
-        const applications = await Application.find();
-        res.json(applications);
+        const thoughts = await Thought.find();
+        res.json(thoughts);
       } catch (err) {
         res.status(500).json(err);
       }
     },
-async getSingleThought(req, res) {
-    try {
-        const Thought = await Thought.findOne({ _id: req.params.thoughtId });
+    async getSingleThought(req, res) {
+      try {
+        const thought = await Thought.findOne({ _id: req.params.thoughtId });
       
-            if (!thought) {
-              return res.status(404).json({ message: 'No thought with that ID' });
-            }
+        if (!thought) {
+          return res.status(404).json({ message: 'No thought with that ID' });
+        }
       
-            res.json(thought);
-          } catch (err) {
-            res.status(500).json(err);
-          }
-        },
+        res.json(thought);
+      } catch (err) {
+        res.status(500).json(err);
+      }
+    },
     // Creates a new thought. Accepts a request body with the entire Thought object.
   // Because thoughts are associated with Users, we then update the User who created the thought and add the ID of the thought to the applications array
   async createThought(req, res) {

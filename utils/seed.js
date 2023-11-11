@@ -1,46 +1,42 @@
-require('dotenv').config(); 
-const mongoose = require('mongoose');
-const User = require('../models/User'); 
-const Thought = require('../models/Thought'); 
+const { connectDB } = require('../config/connection');
+const { User, Thought } = require('../models');
+const faker = require('faker');
+const { getRandomThoughts } = require('./seedData');
 
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+connectDB().then(async () => {
+  console.log('Connected');
 
-const db = mongoose.connection;
+  // Clear existing data
+  await User.deleteMany({});
+  await Thought.deleteMany({});
 
-db.once('open', async () => {
-  try {
-    // Seed users
-    const users = await User.insertMany([
-      {
-        username: 'user1',
-        email: 'user1@example.com',
-      },
-      {
-        username: 'user2',
-        email: 'user2@example.com',
-      },
-    ]);
+  // Generate random users using faker
+  const users = [];
+  for (let i = 0; i < 20; i++) {
+    const username = faker.internet.userName();
+    const email = faker.internet.email();
 
-    // Seed thoughts
-    await Thought.insertMany([
-      {
-        thoughtText: 'This is the first thought.',
-        username: users[0]._id,
-      },
-      {
-        thoughtText: 'Another thought here.',
-        username: users[1]._id,
-      },
-    ]);
-
-    console.log('Database seeded successfully.');
-  } catch (error) {
-    console.error('Error seeding database:', error);
-  } finally {
-    // Close the database connection
-    mongoose.connection.close();
+    const user = new User({ username, email });
+    await user.save();
+    users.push(user);
   }
+
+  // Generate random thoughts and reactions
+  const thoughts = getRandomThoughts(users.map(user => user.username));
+  for (const thoughtData of thoughts) {
+    const user = users.find(u => u.username === thoughtData.username);
+
+    const thought = new Thought({
+      ...thoughtData,
+      user: user._id,
+    });
+
+    await thought.save();
+  }
+
+  console.info('Seeding complete! 🌱');
+  process.exit(0);
+}).catch((error) => {
+  console.error('Error connecting to MongoDB:', error);
+  process.exit(1);
 });

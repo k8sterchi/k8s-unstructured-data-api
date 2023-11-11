@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema, Types } = mongoose;
 
 // Create a Reaction schema
 const reactionSchema = new Schema({
@@ -19,7 +20,15 @@ const reactionSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-});
+},
+{
+  toJSON: {
+    getters: true,
+  },
+  id: false,
+}
+);
 
 // Export the Reaction schema
+
 module.exports = reactionSchema;
