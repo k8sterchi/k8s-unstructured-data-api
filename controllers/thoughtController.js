@@ -66,23 +66,22 @@ module.exports = {
   async deleteThought(req, res) {
     try {
       const thought = await Thought.findOneAndRemove({ _id: req.params.thoughtId });
-
+  
       if (!thought) {
         return res.status(404).json({ message: 'No thought with this id!' });
       }
-
+  
       const user = await User.findOneAndUpdate(
         { thoughts: req.params.thoughtId },
         { $pull: { thoughts: req.params.thoughtId } },
         { new: true }
       );
-
+  
       if (!user) {
-        return res.status(404).json({
-          message: 'Thought created but no user with this id!',
-        });
+        // If user is not found, it means the thought was deleted but no user was associated with it
+        return res.json({ message: 'Thought successfully deleted, but no user associated with it.' });
       }
-
+  
       res.json({ message: 'Thought successfully deleted!' });
     } catch (err) {
       res.status(500).json(err);
@@ -109,19 +108,21 @@ module.exports = {
       // Remove thought reaction. This method finds the thought based on ID. It then updates the reactions array associated with the thought in question by removing it's reactionId from the reactions array.
       async removeReaction(req, res) {
         try {
-          const thought = await Thought.findOneAndUpdate(
-            { _id: req.params.thoughtId },
-            { $pull: { reactions: { reactionId: req.params.reactionId } } },
+          const thought = await Thought.findByIdAndUpdate(
+            req.params.thoughtId,
+            { $pull: { reactions: { _id: req.params.reactionId } } },
             { runValidators: true, new: true }
           );
-    
+      
           if (!thought) {
             return res.status(404).json({ message: 'No thought with this id!' });
           }
-    
+      
+          console.log('Updated Thought:', thought);
           res.json(thought);
         } catch (err) {
+          console.error(err);
           res.status(500).json(err);
         }
-      },
+      }
     };
