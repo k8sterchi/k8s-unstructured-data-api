@@ -2,7 +2,7 @@
 // userRoutes.js
 const express = require('express');
 const router = express.Router();
-const { getUsers, getSingleUser, updateUser, createUser, deleteUser } = require('../../controllers/userController');
+const { getUsers, getSingleUser, updateUser, createUser, deleteUser, addFriend, removeFriend } = require('../../controllers/userController');
 
 // Route to get all users
 router.get('/', getUsers);
@@ -18,5 +18,11 @@ router.post('/', createUser);
 
 // Route to delete a user by ID
 router.delete('/:userId', deleteUser);
+
+// Route to add a friend to a user's friend list
+router.post('/:userId/friends/:friendId', addFriend);
+
+// Route to remove a friend from a user's friend list
+router.delete('/:userId/friends/:friendId', removeFriend);
 
 module.exports = router;

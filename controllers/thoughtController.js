@@ -28,23 +28,18 @@ module.exports = {
   // Because thoughts are associated with Users, we then update the User who created the thought and add the ID of the thought to the applications array
   async createThought(req, res) {
     try {
-      const thought = await Thought.create(req.body);
-      const user = await User.findOneAndUpdate(
-        { _id: req.body.userId },
-        { $addToSet: { thoughts: thought._id } },
-        { new: true }
-      );
-
-      if (!user) {
-        return res.status(404).json({
-          message: 'thought created, but found no user with that ID',
-        })
-      }
-
-      res.json('Created the thought 🎉');
+      const thought = await Thought.create({
+        thoughtText: req.body.thoughtText,
+        username: req.body.username, 
+        user: req.params.userId,
+        reactions: req.body.reaction,
+      });
+  
+      // Return the created thought
+      res.json(thought);
     } catch (err) {
       console.log(err);
-      res.status(500).json(err);
+      res.status(500).json({ message: 'Error creating thought', error: err.message });
     }
   },
   // Updates a thought using the findOneAndUpdate method. Uses the ID, and the $set operator in mongodb to inject the request body. Enforces validation.
