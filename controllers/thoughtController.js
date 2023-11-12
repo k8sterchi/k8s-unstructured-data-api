@@ -109,7 +109,7 @@ module.exports = {
       async removeReaction(req, res) {
         try {
           const thought = await Thought.findByIdAndUpdate(
-            req.params.thoughtId,
+            { _id: req.params.thoughtId },
             { $pull: { reactions: { _id: req.params.reactionId } } },
             { runValidators: true, new: true }
           );
@@ -121,7 +121,6 @@ module.exports = {
           console.log('Updated Thought:', thought);
           res.json(thought);
         } catch (err) {
-          console.error(err);
           res.status(500).json(err);
         }
       }

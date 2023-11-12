@@ -41,30 +41,17 @@ The following animations show examples of the application's API routes being tes
 
 This first animation demonstrates how to start the application's server: 
 
-(insert animation here)
+[Click here to view video of `npm run start`](https://drive.google.com/file/d/1UhoAA9C9XPy6Gqkp7HLaaGUIur7E1pRa/view)
 
 
 
-[Click to view animation showing GET routes to return all users and all thoughts](https://drive.google.com/file/d/1dTRUGFIg3FJL2MKkbTodPMjV-oaDy4ta/view)
+[Click to view GET route to return all users, GET route to return single user, POST route to create new user, PUT route to update user, DELETE route to delete user, GET route to return all thoughts, GET route to return singe thought, POST route to create a new thought for a specific user, PUT route to update a thought, and DELETE route to delete a thought](https://drive.google.com/file/d/14I0cMQmL3Cygn9j8E8X5gfEdRU6_sMny/view)
 
-The following animation shows GET routes to return a single user and a single thought being tested in Insomnia:
+[Click to here to view POST route for adding a reaction to a thought, DELETE route for deleteing a reaction to a thought, POST route for adding a friend to a user's friend list, DELETE route for deleting friend from user's friend list.](https://drive.google.com/file/d/1l8ZqlTklPKmZUiTlJl8aClvjAtzLhfFu/view)
 
-(insert animation here)
-
-The following animation shows the POST, PUT, and DELETE routes for users being tested in Insomnia:
-
-(insert animation here)
-
-The following animation shows the POST and DELETE routes for a user's friend list being tested in Insomnia:
-
-(insert animation here)
-
-The following animation shows the POST and DELETE routes for reactions to thoughts being tested in Insomnia:
-
-(insert animation here)
 
 ## Resources
-Re-watching all the class material and borrowing code snipets from previous lessons. 
+Re-watching ALL the class material and borrowing code snipets from previous lessons. 
 
 ## License
 ![License](https://img.shields.io/badge/License-MIT%20License-brightgreen)  
